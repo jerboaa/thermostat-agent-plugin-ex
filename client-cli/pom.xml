@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.redhat.thermostat.tutorial.kernel.cmdline</groupId>
+    <artifactId>thermostat-plug-in</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>thermostat-plug-in-cli</artifactId>
+  <packaging>bundle</packaging>
+
+  <name>Thermostat Kernel Commandline CLI</name>
+
+  <dependencies>
+      
+      <!-- osgi and test dependencies -->
+      
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <scope>test</scope>
+      </dependency>
+    
+      <dependency>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-core</artifactId>
+          <scope>test</scope>
+      </dependency>
+        
+      <dependency>
+          <groupId>org.osgi</groupId>
+          <artifactId>org.osgi.core</artifactId>
+          <scope>provided</scope>
+      </dependency>
+    
+      <dependency>
+          <groupId>org.osgi</groupId>
+          <artifactId>org.osgi.compendium</artifactId>
+          <scope>provided</scope>
+      </dependency>
+
+      <!-- thermostat specific dependencies -->
+    
+      <dependency>
+          <groupId>com.redhat.thermostat</groupId>
+          <artifactId>thermostat-client-core</artifactId>
+          <type>jar</type>
+      </dependency>
+      
+      <dependency>
+          <groupId>com.redhat.thermostat</groupId>
+          <artifactId>thermostat-common-core</artifactId>
+          <type>jar</type>
+      </dependency>
+    
+      <!-- plugin specific dependencies -->
+      
+      <dependency>
+          <groupId>com.redhat.thermostat.tutorial.kernel.cmdline</groupId>
+          <artifactId>thermostat-plug-in-storage-common</artifactId>
+    	  <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-Vendor>Red Hat, Inc.</Bundle-Vendor>
+            <Bundle-SymbolicName>com.redhat.thermostat.tutorial.kernel.cmdline.cli</Bundle-SymbolicName>
+            <Private-Package>
+                com.redhat.thermostat.tutorial.kernel.cmdline.cli.internal
+            </Private-Package>
+            <!-- Do not autogenerate uses clauses in Manifests -->
+            <_nouses>true</_nouses>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

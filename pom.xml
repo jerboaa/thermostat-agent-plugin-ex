@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+
+ Copyright 2012, 2013 Red Hat, Inc.
+
+ This file is part of Thermostat.
+
+ Thermostat is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published
+ by the Free Software Foundation; either version 2, or (at your
+ option) any later version.
+
+ Thermostat is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Thermostat; see the file COPYING.  If not see
+ <http://www.gnu.org/licenses />.
+
+ Linking this code with other modules is making a combined work
+ based on this code.  Thus, the terms and conditions of the GNU
+ General Public License cover the whole combination.
+
+ As a special exception, the copyright holders of this code give
+ you permission to link this code with independent modules to
+ produce an executable, regardless of the license terms of these
+ independent modules, and to copy and distribute the resulting
+ executable under terms of your choice, provided that you also
+ meet, for each linked independent module, the terms and conditions
+ of the license of that module.  An independent module is a module
+ which is not derived from or based on this code.  If you modify
+ this code, you may extend this exception to your version of the
+ library, but you are not obligated to do so.  If you do not wish
+ to do so, delete this exception statement from your version.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.redhat.thermostat.tutorial.kernel.cmdline</groupId>
+  <artifactId>thermostat-plug-in</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Thermostat Kernel Commandline</name>
+  <url>${thermostat.url}</url>
+
+  <properties>
+  
+    <main.basedir>${project.basedir}</main.basedir>  
+  
+    <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
+    <thermostat.url>http://icedtea.classpath.org/thermostat/</thermostat.url>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <thermostat.java.version>1.7</thermostat.java.version>
+    <junit.version>4.10</junit.version>
+    <mockito.version>1.9.0</mockito.version>
+    <fest.version>1.2.1</fest.version>
+
+    <java.dir>/usr/share/java</java.dir>
+
+    <osgi.core.version>4.2.0</osgi.core.version>
+    <osgi.compendium.version>4.2.0</osgi.compendium.version>
+    <felix.framework.version>4.0.2</felix.framework.version>
+    
+  </properties>
+
+  <modules>
+    <module>client-cli</module>
+    <module>agent</module>
+    <module>storage-common</module>
+  </modules>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.3.2</version>
+          <configuration>
+            <source>${thermostat.java.version}</source>
+            <target>${thermostat.java.version}</target>
+          </configuration>
+        </plugin>
+ 
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.12</version>
+          <configuration>
+            <argLine>-XX:-UseSplitVerifier -XX:MaxPermSize=300m</argLine>
+            <systemPropertyVariables>
+              <java.awt.headless>false</java.awt.headless>
+              <awt.toolkit>net.java.openjdk.cacio.ctc.CTCToolkit</awt.toolkit>
+              <java.awt.graphicsenv>net.java.openjdk.cacio.ctc.CTCGraphicsEnvironment</java.awt.graphicsenv>
+              <com.redhat.thermostat.utils.keyring.provider>com.redhat.thermostat.utils.keyring.MemoryKeyring</com.redhat.thermostat.utils.keyring.provider>
+            </systemPropertyVariables>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.surefire</groupId>
+              <artifactId>surefire-junit47</artifactId>
+              <version>2.12</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>1.4.0</version>
+        </plugin>
+
+    </plugins>
+   </pluginManagement>
+  </build>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${mockito.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.easytesting</groupId>
+        <artifactId>fest-swing</artifactId>
+        <version>${fest.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-api-mockito</artifactId>
+        <version>${powermock.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-module-junit4</artifactId>
+        <version>${powermock.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.java.openjdk.cacio</groupId>
+        <artifactId>cacio-tta</artifactId>
+        <version>1.3</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.core</artifactId>
+        <version>${osgi.core.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.compendium</artifactId>
+        <version>${osgi.compendium.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.framework</artifactId>
+        <version>${felix.framework.version}</version>
+      </dependency>
+    
+      <!-- thermostat dependencies -->
+
+      <dependency>
+          <groupId>com.redhat.thermostat</groupId>
+          <artifactId>thermostat-common-core</artifactId>
+          <version>0.6.0-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.redhat.thermostat</groupId>
+          <artifactId>thermostat-storage-core</artifactId>
+          <version>0.6.0-SNAPSHOT</version>
+      </dependency>
+      
+      <dependency>
+          <groupId>com.redhat.thermostat</groupId>
+          <artifactId>thermostat-agent-core</artifactId>
+          <version>0.6.0-SNAPSHOT</version>
+      </dependency>
+        
+      <dependency>
+          <groupId>com.redhat.thermostat</groupId>
+          <artifactId>thermostat-client-core</artifactId>
+          <version>0.6.0-SNAPSHOT</version>
+      </dependency>
+    
+    </dependencies>
+  </dependencyManagement>
+
+</project>
