@@ -11,7 +11,7 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext context) throws Exception {
 		// register your kernel cmd line command here
 		// just uncomment the following line
-		//new CommandRegistryImpl(context).registerCommand(new KernelCmdlineCommand());
+		new CommandRegistryImpl(context).registerCommand(new KernelCmdlineCommand());
 	}
 
 	@Override

@@ -109,6 +109,7 @@
         <configuration>
           <instructions>
             <Bundle-Vendor>Red Hat, Inc.</Bundle-Vendor>
+            <Bundle-Activator>com.redhat.thermostat.tutorial.kernel.cmdline.agent.internal.Activator</Bundle-Activator>
             <Bundle-SymbolicName>com.redhat.thermostat.tutorial.kernel.cmdline.agent</Bundle-SymbolicName>
             <Private-Package>
                 com.redhat.thermostat.tutorial.kernel.cmdline.agent.internal

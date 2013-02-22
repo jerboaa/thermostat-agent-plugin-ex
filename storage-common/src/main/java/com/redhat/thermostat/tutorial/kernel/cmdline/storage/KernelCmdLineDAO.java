@@ -44,8 +44,6 @@ public interface KernelCmdLineDAO {
 
     static final Category<KernelCmdLine> kernelCmdLineCategory = new Category<>("kernel-cmd-line", KernelCmdLine.class, Key.AGENT_ID, Key.TIMESTAMP);
 
-    static final Key<String> cmdline = new Key<>("cmdline", false);
-
     void putCmdLine(String cmdLine);
     
     String getCmdLine(HostRef ref);

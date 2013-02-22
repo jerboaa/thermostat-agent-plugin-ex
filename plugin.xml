@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<plugin>
+  <commands>
+    <command type="extends">
+      <name>agent</name>
+      <bundles>
+        <bundle>thermostat-plug-in-agent-0.0.1-SNAPSHOT.jar</bundle>
+        <bundle>thermostat-plug-in-storage-common-0.0.1-SNAPSHOT.jar</bundle>
+      </bundles>
+    </command>
+    <command type="provides">
+      <name>kernel-cmdline</name>
+      <description>print the kernel cmdline for a host</description>
+      <!-- unfortunately, cmd options are not yet supported via plug-ins.
+           keep your eyes peeled for it, though ;-)
+           For the purpose of this exercise, kernel-cmdline will just use
+           the first active agent-id.
+      -->
+      <usage>kernel-cmdline</usage>
+      <bundles>
+        <bundle>thermostat-plug-in-cli-0.0.1-SNAPSHOT.jar</bundle>
+        <bundle>thermostat-plug-in-storage-common-0.0.1-SNAPSHOT.jar</bundle>
+      </bundles>
+      <dependencies>
+        <dependency>thermostat-storage-core-0.6.0-SNAPSHOT.jar</dependency>
+        <dependency>thermostat-storage-mongodb-0.6.0-SNAPSHOT.jar</dependency>
+        <dependency>thermostat-client-cli-0.6.0-SNAPSHOT.jar</dependency>
+        <dependency>mongo.jar</dependency>
+        <dependency>commons-beanutils.jar</dependency>
+        <dependency>commons-collections.jar</dependency>
+        <dependency>commons-logging.jar</dependency>
+      </dependencies>
+    </command>
+ </commands>
+</plugin>
