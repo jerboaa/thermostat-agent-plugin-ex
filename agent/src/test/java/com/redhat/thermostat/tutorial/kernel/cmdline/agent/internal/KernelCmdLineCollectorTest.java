@@ -4,12 +4,14 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.junit.Ignore;
 
 import com.redhat.thermostat.tutorial.kernel.cmdline.agent.internal.KernelCmdLineCollector;
 
 
 public class KernelCmdLineCollectorTest {
 
+	@Ignore
 	@Test
 	public void canReadKernelCmdLine() {
 		KernelCmdLineCollector collector = new KernelCmdLineCollector();
