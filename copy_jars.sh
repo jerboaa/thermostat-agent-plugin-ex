@@ -9,8 +9,8 @@ PLUGIN_DIR=$THERMOSTAT_DEV_HOME/distribution/target/plugins/kernel-cmdline/
 if [ ! -e $PLUGIN_DIR ]; then
     mkdir -p $PLUGIN_DIR
 fi
-cp -v ./agent/target/thermostat-plug-in-agent-0.0.1-SNAPSHOT.jar $PLUGIN_DIR
-cp -v ./client-cli/target/thermostat-plug-in-cli-0.0.1-SNAPSHOT.jar $PLUGIN_DIR
-cp -v ./storage-common/target/thermostat-plug-in-storage-common-0.0.1-SNAPSHOT.jar $PLUGIN_DIR
-cp -v ./plugin.xml $PLUGIN_DIR
+cp -v ./agent/target/thermostat-plug-in-agent-0.0.2-SNAPSHOT.jar $PLUGIN_DIR
+cp -v ./client-cli/target/thermostat-plug-in-cli-0.0.2-SNAPSHOT.jar $PLUGIN_DIR
+cp -v ./storage-common/target/thermostat-plug-in-storage-common-0.0.2-SNAPSHOT.jar $PLUGIN_DIR
+cp -v ./thermostat-plugin.xml $PLUGIN_DIR
 

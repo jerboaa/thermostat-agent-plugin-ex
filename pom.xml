@@ -41,7 +41,7 @@
 
   <groupId>com.redhat.thermostat.tutorial.kernel.cmdline</groupId>
   <artifactId>thermostat-plug-in</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Thermostat Kernel Commandline</name>
@@ -172,25 +172,25 @@
       <dependency>
           <groupId>com.redhat.thermostat</groupId>
           <artifactId>thermostat-common-core</artifactId>
-          <version>0.6.0-SNAPSHOT</version>
+          <version>0.8.0-SNAPSHOT</version>
       </dependency>
 
       <dependency>
           <groupId>com.redhat.thermostat</groupId>
           <artifactId>thermostat-storage-core</artifactId>
-          <version>0.6.0-SNAPSHOT</version>
+          <version>0.8.0-SNAPSHOT</version>
       </dependency>
       
       <dependency>
           <groupId>com.redhat.thermostat</groupId>
           <artifactId>thermostat-agent-core</artifactId>
-          <version>0.6.0-SNAPSHOT</version>
+          <version>0.8.0-SNAPSHOT</version>
       </dependency>
         
       <dependency>
           <groupId>com.redhat.thermostat</groupId>
           <artifactId>thermostat-client-core</artifactId>
-          <version>0.6.0-SNAPSHOT</version>
+          <version>0.8.0-SNAPSHOT</version>
       </dependency>
     
     </dependencies>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<plugin xmlns="http://icedtea.classpath.org/thermostat/plugins/v1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://icedtea.classpath.org/thermostat/plugins/v1.0 thermostat-plugin.xsd">
+ <commands>
+    <command>
+      <name>kernel-cmdline</name>
+      <description>print the kernel cmdline for a host</description>
+      <!-- FIXME implement cmd options (properly) here -->
+      <options>
+        <option>
+          <long>aaaa</long>
+          <short>a</short>
+        </option>
+      </options>
+      <bundles>
+        <bundle>thermostat-plug-in-cli-0.0.2-SNAPSHOT.jar</bundle>
+        <bundle>thermostat-plug-in-storage-common-0.0.2-SNAPSHOT.jar</bundle>
+      </bundles>
+      <dependencies>
+        <dependency>thermostat-storage-core-0.8.0-SNAPSHOT.jar</dependency>
+        <dependency>thermostat-storage-mongodb-0.8.0-SNAPSHOT.jar</dependency>
+        <dependency>thermostat-client-cli-0.8.0-SNAPSHOT.jar</dependency>
+        <dependency>mongo.jar</dependency>
+        <dependency>commons-beanutils.jar</dependency>
+        <dependency>commons-collections.jar</dependency>
+        <dependency>commons-logging.jar</dependency>
+      </dependencies>
+    </command>
+  </commands>
+  <extensions>
+    <extension>
+      <name>agent</name>
+      <bundles>
+        <bundle>thermostat-plug-in-agent-0.0.2-SNAPSHOT.jar</bundle>
+        <bundle>thermostat-plug-in-storage-common-0.0.2-SNAPSHOT.jar</bundle>
+      </bundles>
+    </extension>
+ </extensions>
+</plugin>
