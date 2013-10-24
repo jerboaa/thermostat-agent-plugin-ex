@@ -36,17 +36,26 @@
 
 package com.redhat.thermostat.tutorial.kernel.cmdline.storage.internal;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.redhat.thermostat.common.utils.LoggingUtils;
 import com.redhat.thermostat.storage.core.Cursor;
+import com.redhat.thermostat.storage.core.DescriptorParsingException;
 import com.redhat.thermostat.storage.core.HostRef;
 import com.redhat.thermostat.storage.core.Key;
-import com.redhat.thermostat.storage.core.Query;
-import com.redhat.thermostat.storage.core.Query.Criteria;
-import com.redhat.thermostat.storage.core.Replace;
+import com.redhat.thermostat.storage.core.PreparedStatement;
+import com.redhat.thermostat.storage.core.StatementDescriptor;
+import com.redhat.thermostat.storage.core.StatementExecutionException;
 import com.redhat.thermostat.storage.core.Storage;
 import com.redhat.thermostat.tutorial.kernel.cmdline.storage.KernelCmdLine;
 import com.redhat.thermostat.tutorial.kernel.cmdline.storage.KernelCmdLineDAO;
 
 public class KernelCmdLineDAOImpl implements KernelCmdLineDAO {
+	
+	private static final Logger logger = LoggingUtils.getLogger(KernelCmdLineDAOImpl.class);
+	private static final String REPLACE_DESC = "REPLACE " + kernelCmdLineCategory.getName() + " SET '" + Key.AGENT_ID.getName() + "' = ?s , '" + cmdLineKey.getName() + "' = ?s WHERE '" + Key.AGENT_ID.getName() + "' = ?s";
+	private static final String QUERY_DESC = "QUERY " + kernelCmdLineCategory.getName() + " WHERE '" + Key.AGENT_ID.getName() + "' = ?s LIMIT 1";
 
 	private final Storage storage;
 	
@@ -56,25 +65,41 @@ public class KernelCmdLineDAOImpl implements KernelCmdLineDAO {
     }
     
 	@Override
-    public void putCmdLine(String cmdLine) {
-		Replace replace = storage.createReplace(kernelCmdLineCategory);
-        KernelCmdLine kCmdLine = new KernelCmdLine();
-        kCmdLine.setCmdLine(cmdLine);
-        replace.setPojo(kCmdLine);
-        replace.apply();
+    public void putCmdLine(KernelCmdLine cmdLine) {
+		StatementDescriptor<KernelCmdLine> desc = new StatementDescriptor<>(kernelCmdLineCategory, REPLACE_DESC);
+		PreparedStatement<KernelCmdLine> stmt;
+		try {
+			stmt = storage.prepareStatement(desc);
+			stmt.setString(0, cmdLine.getAgentId());
+			stmt.setString(1, cmdLine.getCmdLine());
+			stmt.setString(2, cmdLine.getAgentId());
+			stmt.execute();
+		} catch (DescriptorParsingException e) {
+			logger.log(Level.SEVERE, "Failed to parse statement description", e);
+		} catch (StatementExecutionException e) {
+			logger.log(Level.SEVERE, "Failed to execute prepared statement", e);
+		}
 	}
     
 	@Override
     public String getCmdLine(HostRef ref) {
-		Query<KernelCmdLine> query = storage.createQuery(kernelCmdLineCategory);
-        query.where(Key.AGENT_ID, Criteria.EQUALS, ref.getAgentId());
-        query.limit(1);
-        Cursor<KernelCmdLine> cmdLineCursor = query.execute();
-        if (cmdLineCursor.hasNext()) {
-            return cmdLineCursor.next().getCmdLine();
-        } else {
-            return "UNKNOWN";
-        }
+		String cmdLine = "UNKNOWN";
+		StatementDescriptor<KernelCmdLine> desc = new StatementDescriptor<>(kernelCmdLineCategory, QUERY_DESC);
+		PreparedStatement<KernelCmdLine> stmt;
+		try {
+			stmt = storage.prepareStatement(desc);
+			stmt.setString(0, ref.getAgentId());
+			Cursor<KernelCmdLine> cmdLineCursor = stmt.executeQuery();
+			if (cmdLineCursor.hasNext()) {
+				cmdLine =  cmdLineCursor.next().getCmdLine();
+			}
+		} catch (DescriptorParsingException e) {
+			logger.log(Level.SEVERE, "Failed to parse statement description", e);
+		} catch (StatementExecutionException e) {
+			logger.log(Level.SEVERE, "Failed to execute prepared statement", e);
+		}
+        
+        return cmdLine;
     }
 
 }

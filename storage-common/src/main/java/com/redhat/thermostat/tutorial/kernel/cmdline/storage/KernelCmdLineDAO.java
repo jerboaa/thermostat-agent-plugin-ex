@@ -43,8 +43,10 @@ import com.redhat.thermostat.storage.core.Key;
 public interface KernelCmdLineDAO {
 
     static final Category<KernelCmdLine> kernelCmdLineCategory = new Category<>("kernel-cmd-line", KernelCmdLine.class, Key.AGENT_ID, Key.TIMESTAMP);
+    
+    static final Key<String> cmdLineKey = new Key<>("cmdLine");
 
-    void putCmdLine(String cmdLine);
+    void putCmdLine(KernelCmdLine cmdLine);
     
     String getCmdLine(HostRef ref);
 

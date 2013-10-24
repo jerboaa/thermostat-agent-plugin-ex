@@ -1,24 +1,28 @@
 package com.redhat.thermostat.tutorial.kernel.cmdline.agent.internal;
+
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
 
-import com.redhat.thermostat.tutorial.kernel.cmdline.agent.internal.KernelCmdLineCollector;
-
+import com.redhat.thermostat.storage.core.WriterID;
 
 public class KernelCmdLineCollectorTest {
 
 	@Ignore
 	@Test
 	public void canReadKernelCmdLine() {
-		KernelCmdLineCollector collector = new KernelCmdLineCollector();
+		WriterID writer = mock(WriterID.class);
+		when(writer.getWriterID()).thenReturn("ID");
+		KernelCmdLineCollector collector = new KernelCmdLineCollector(writer);
 		
 		String actual = null;
 		try {
-			actual = collector.getCmdLine();
+			actual = collector.getCmdLine().getCmdLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 			actual = "WRONG!";

@@ -10,8 +10,17 @@ import com.redhat.thermostat.storage.model.BasePojo;
  */
 @Entity
 public class KernelCmdLine extends BasePojo {
-
+	
 	private String cmdLine;
+	
+	public KernelCmdLine() {
+		this(null, null);
+	}
+
+	public KernelCmdLine(String writerId, String cmdLine) {
+		super(writerId);
+		this.cmdLine = cmdLine;
+	}
 	
 	@Persist
     public void setCmdLine(String cmdLine) {
