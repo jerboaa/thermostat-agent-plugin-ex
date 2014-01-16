@@ -15,12 +15,8 @@ public class KernelCmdLine extends BasePojo {
 	
 	private String cmdLine;
 	
-	public KernelCmdLine() {
-		this(null, null);
-	}
-
+	
 	private long timeStamp;
-	private String cmdLine;
 	
 	public KernelCmdLine(String writerId) {
 		super(writerId);

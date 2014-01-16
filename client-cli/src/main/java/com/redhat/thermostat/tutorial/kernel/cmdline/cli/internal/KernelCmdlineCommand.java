@@ -15,9 +15,6 @@ import com.redhat.thermostat.storage.model.AgentInformation;
 import com.redhat.thermostat.storage.model.HostInfo;
 import com.redhat.thermostat.tutorial.kernel.cmdline.storage.KernelCmdLineDAO;
 
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
-
 public class KernelCmdlineCommand extends AbstractCommand {
 
 	public static final String NAME = "kernel-cmdline";

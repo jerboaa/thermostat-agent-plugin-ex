@@ -14,7 +14,6 @@ import com.redhat.thermostat.common.TimerFactory;
 import com.redhat.thermostat.common.Version;
 import com.redhat.thermostat.common.utils.LoggingUtils;
 import com.redhat.thermostat.storage.core.WriterID;
-import com.redhat.thermostat.tutorial.kernel.cmdline.storage.KernelCmdLine;
 import com.redhat.thermostat.tutorial.kernel.cmdline.storage.KernelCmdLineDAO;
 
 public class KernelCmdLineBackend extends BaseBackend {
@@ -34,7 +33,7 @@ public class KernelCmdLineBackend extends BaseBackend {
                 "Red Hat, Inc.",
                 version.getVersionNumber());
 		this.appService = service;
-		this.collector = new KernelCmdLineCollector(writer);
+		this.collector = new KernelCmdLineCollector();
 		this.dao = dao;
 		this.started = false;
 	}
@@ -55,7 +54,7 @@ public class KernelCmdLineBackend extends BaseBackend {
             @Override
             public void run() {
                 try {
-                    KernelCmdLine cmdLine = collector.getCmdLine();
+                    String cmdLine = collector.getCmdLine();
                     dao.putCmdLine(cmdLine);
                 } catch (IOException e) {
                     log.log(Level.WARNING, e.getMessage(), e);

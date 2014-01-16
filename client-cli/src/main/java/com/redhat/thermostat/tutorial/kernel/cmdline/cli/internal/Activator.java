@@ -1,7 +1,5 @@
 package com.redhat.thermostat.tutorial.kernel.cmdline.cli.internal;
 
-import java.util.Hashtable;
-
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 

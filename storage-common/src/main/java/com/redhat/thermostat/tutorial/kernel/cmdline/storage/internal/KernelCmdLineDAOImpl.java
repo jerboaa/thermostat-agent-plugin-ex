@@ -55,10 +55,7 @@ import com.redhat.thermostat.tutorial.kernel.cmdline.storage.KernelCmdLineDAO;
 public class KernelCmdLineDAOImpl implements KernelCmdLineDAO {
 	
 	private static final Logger logger = LoggingUtils.getLogger(KernelCmdLineDAOImpl.class);
-	private static final String REPLACE_DESC = "REPLACE " + kernelCmdLineCategory.getName() + " SET '" + Key.AGENT_ID.getName() + "' = ?s , '" + cmdLineKey.getName() + "' = ?s WHERE '" + Key.AGENT_ID.getName() + "' = ?s";
-	private static final String QUERY_DESC = "QUERY " + kernelCmdLineCategory.getName() + " WHERE '" + Key.AGENT_ID.getName() + "' = ?s LIMIT 1";
 
-	private static final Logger logger = LoggingUtils.getLogger(KernelCmdLineDAOImpl.class);
 	private static final String REPLACE_DESCRIPTOR = "REPLACE " + kernelCmdLineCategory.getName() +
 			                                                  " SET '" + Key.AGENT_ID.getName() + "' = ?s , " +
 			                                                       "'" + CMD_LINE_KEY.getName() + "' = ?s , " +
