@@ -41,7 +41,7 @@
 
   <groupId>com.redhat.thermostat.plugins.tutorial.kernel.cmdline</groupId>
   <artifactId>thermostat-kernel-cmdline</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Thermostat Kernel Commandline Plug-in</name>
