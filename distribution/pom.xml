@@ -45,78 +45,67 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>thermostat-kernel-cmdline-storage-common</artifactId>
-  <packaging>bundle</packaging>
+  <artifactId>thermostat-kernel-cmdline-distribution</artifactId>
+  <packaging>pom</packaging>
 
-  <name>Thermostat Kernel Commandline Storage Common</name>
-
-  <dependencies>
-      
-      <!-- osgi and test dependencies -->
-      
-      <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <scope>test</scope>
-      </dependency>
-    
-      <dependency>
-          <groupId>org.mockito</groupId>
-          <artifactId>mockito-core</artifactId>
-          <scope>test</scope>
-      </dependency>
-        
-      <dependency>
-          <groupId>org.osgi</groupId>
-          <artifactId>org.osgi.core</artifactId>
-          <scope>provided</scope>
-      </dependency>
-    
-      <dependency>
-          <groupId>org.osgi</groupId>
-          <artifactId>org.osgi.compendium</artifactId>
-          <scope>provided</scope>
-      </dependency>
-
-      <!-- thermostat specific dependencies -->
-    
-      <dependency>
-          <groupId>com.redhat.thermostat</groupId>
-          <artifactId>thermostat-storage-core</artifactId>
-      </dependency>
-      
-      <dependency>
-          <groupId>com.redhat.thermostat</groupId>
-          <artifactId>thermostat-common-core</artifactId>
-      </dependency>
-    
-      <!-- plugin specific dependencies -->
-
-  </dependencies>
+  <!-- Assembles the jars of this plugin in a zip file for easy
+       deployment. see target/thermostat-kernel-cmdline-distribution*.zip
+       after a maven build -->
+  <name>Thermostat Kernel Commandline distribution</name>
+  
+  <properties>
+    <thermostat.plugin>kernel-cmdline</thermostat.plugin>
+  </properties>
 
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>com.redhat.thermostat</groupId>
+            <artifactId>thermostat-assembly</artifactId>
+            <version>${thermostat-core-version}</version>
+          </dependency>
+        </dependencies>
         <configuration>
-          <instructions>
-            <Bundle-Vendor>Red Hat, Inc.</Bundle-Vendor>
-            <Bundle-SymbolicName>com.redhat.thermostat.tutorial.kernel.cmdline.storage</Bundle-SymbolicName>
-            <Bundle-Activator>com.redhat.thermostat.tutorial.kernel.cmdline.storage.internal.Activator</Bundle-Activator>
-            <Export-Package>
-              com.redhat.thermostat.tutorial.kernel.cmdline.storage
-            </Export-Package>
-            <Private-Package>
-              com.redhat.thermostat.tutorial.kernel.cmdline.storage.internal
-            </Private-Package>
-            <!-- Do not autogenerate uses clauses in Manifests -->
-            <_nouses>true</_nouses>
-          </instructions>
+          <descriptorRefs>
+            <descriptorRef>plugin-assembly</descriptorRef>
+          </descriptorRefs>
+          <appendAssemblyId>false</appendAssemblyId>
         </configuration>
+        <executions>
+          <execution>
+            <id>assemble-plugin</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
+  
+  <!-- Explicitly list all plug-in artifacts, transitive dependencies
+       are not included in assembly. -->
+  <dependencies>
+    <dependency>
+      <groupId>com.redhat.thermostat.plugins.tutorial.kernel.cmdline</groupId>
+      <artifactId>thermostat-kernel-cmdline-agent</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.redhat.thermostat.plugins.tutorial.kernel.cmdline</groupId>
+      <artifactId>thermostat-kernel-cmdline-storage-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.redhat.thermostat.plugins.tutorial.kernel.cmdline</groupId>
+      <artifactId>thermostat-kernel-cmdline-cli</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 
 </project>
+

@@ -41,8 +41,17 @@ import com.redhat.thermostat.storage.core.HostRef;
 import com.redhat.thermostat.storage.core.Key;
 
 public interface KernelCmdLineDAO {
+	
+	public static final Key<String> CMD_LINE_KEY = new Key<>("cmdLine");
 
-    static final Category<KernelCmdLine> kernelCmdLineCategory = new Category<>("kernel-cmd-line", KernelCmdLine.class, Key.AGENT_ID, Key.TIMESTAMP);
+	/*
+	 * Schema description for the new kernel command line collection
+	 */
+    static final Category<KernelCmdLine> kernelCmdLineCategory = new Category<>("kernel-cmd-line",
+    																		KernelCmdLine.class,
+    																		Key.AGENT_ID,
+    																		CMD_LINE_KEY,
+    																		Key.TIMESTAMP);
 
     void putCmdLine(String cmdLine);
     

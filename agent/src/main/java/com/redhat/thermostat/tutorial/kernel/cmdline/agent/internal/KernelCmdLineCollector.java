@@ -9,17 +9,24 @@ import java.util.Scanner;
  * Reads the kernel cmdline from /proc
  *
  */
-public class KernelCmdLineCollector {
+class KernelCmdLineCollector {
 
-	private File cmdlineFile = new File("/proc/cmdline");
+	private static final File defaultCmdlineFile = new File("/proc/cmdline");
+	private final File cmdLineFile;
 	
 	// Constructor not available outside package
 	KernelCmdLineCollector() {
+		this.cmdLineFile = defaultCmdlineFile;
 	}
 	
-	public String getCmdLine() throws IOException {
+	// For testing only
+	KernelCmdLineCollector(File file) {
+		this.cmdLineFile = file;
+	}
+	
+	String getCmdLine() throws IOException {
 		String cmdLine = "";
-		try (FileInputStream in = new FileInputStream(cmdlineFile)) {
+		try (FileInputStream in = new FileInputStream(cmdLineFile)) {
 			Scanner scanner = new Scanner(in);
 			cmdLine = scanner.nextLine();
 			scanner.close();
