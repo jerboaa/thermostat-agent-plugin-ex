@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
+import com.redhat.thermostat.storage.core.WriterID;
+import com.redhat.thermostat.tutorial.kernel.cmdline.storage.KernelCmdLine;
+
 /**
  * Reads the kernel cmdline from /proc
  *

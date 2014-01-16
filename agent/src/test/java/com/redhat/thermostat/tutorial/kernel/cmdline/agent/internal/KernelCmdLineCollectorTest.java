@@ -1,10 +1,15 @@
 package com.redhat.thermostat.tutorial.kernel.cmdline.agent.internal;
+
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+import com.redhat.thermostat.storage.core.WriterID;
 
 public class KernelCmdLineCollectorTest {
 	

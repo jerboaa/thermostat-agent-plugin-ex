@@ -12,6 +12,7 @@ import com.redhat.thermostat.common.ApplicationService;
 import com.redhat.thermostat.common.MultipleServiceTracker;
 import com.redhat.thermostat.common.MultipleServiceTracker.Action;
 import com.redhat.thermostat.common.Version;
+import com.redhat.thermostat.storage.core.WriterID;
 import com.redhat.thermostat.tutorial.kernel.cmdline.storage.KernelCmdLineDAO;
 
 public class Activator implements BundleActivator {
@@ -23,15 +24,19 @@ public class Activator implements BundleActivator {
 	@Override
 	public void start(final BundleContext context) throws Exception {
 		Class<?>[] deps = new Class<?>[] {
-                BackendService.class, KernelCmdLineDAO.class, ApplicationService.class
+                BackendService.class, 
+                KernelCmdLineDAO.class, 
+                ApplicationService.class,
+                WriterID.class
         };
         tracker = new MultipleServiceTracker(context, deps, new Action() {
             @Override
             public void dependenciesAvailable(Map<String, Object> services) {
                 ApplicationService appService = (ApplicationService) services.get(ApplicationService.class.getName());
                 KernelCmdLineDAO dao = (KernelCmdLineDAO) services.get(KernelCmdLineDAO.class.getName());
+                WriterID writer = (WriterID) services.get(WriterID.class.getName());
                 Version version = new Version(context.getBundle());
-                backend = new KernelCmdLineBackend(appService, version, dao);
+                backend = new KernelCmdLineBackend(appService, version, dao, writer);
                 reg = context.registerService(Backend.class.getName(), backend, null);
             }
 
