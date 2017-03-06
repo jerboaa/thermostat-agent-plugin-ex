@@ -1,53 +1,12 @@
 <?xml version="1.0"?>
 <plugin xmlns="http://icedtea.classpath.org/thermostat/plugins/v1.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <commands>
-    <command>
-      <name>kernel-cmdline</name>
-      <description>Show the kernel command line of a given agent</description>
-      <options>
-        <option>
-          <long>hostId</long>
-          <short>a</short>
-          <argument>hostId</argument>
-          <required>true</required>
-          <description>the ID of the agent to show the kernel cmd line for</description>
-        </option>
-        <option common="true">
-          <long>dbUrl</long>
-        </option>
-        <option common="true">
-          <long>logLevel</long>
-        </option>
-      </options>
-      <environments>
-        <environment>cli</environment>
-        <environment>shell</environment>
-      </environments>
-      <bundles>
-        <bundle><symbolic-name>com.redhat.thermostat.tutorial.kernel.cmdline.cli</symbolic-name><version>${project.version}</version></bundle>
-        <bundle><symbolic-name>com.redhat.thermostat.tutorial.kernel.cmdline.storage</symbolic-name><version>${project.version}</version></bundle>
-        <bundle><symbolic-name>com.redhat.thermostat.storage.core</symbolic-name><version>${thermostat-core-version}</version></bundle>
-        <bundle><symbolic-name>com.redhat.thermostat.storage.mongodb</symbolic-name><version>${thermostat-core-version}</version></bundle>
-        <bundle><symbolic-name>com.redhat.thermostat.web.common</symbolic-name><version>${thermostat-core-version}</version></bundle>
-        <bundle><symbolic-name>com.redhat.thermostat.web.client</symbolic-name><version>${thermostat-core-version}</version></bundle>
-        <bundle><symbolic-name>org.mongodb.mongo-java-driver</symbolic-name><version>${mongo-driver.osgi-version}</version></bundle>
-        <bundle><symbolic-name>org.apache.commons.beanutils</symbolic-name><version>${commons-beanutils.version}</version></bundle>
-        <bundle><symbolic-name>org.apache.commons.codec</symbolic-name><version>${commons-codec.osgi-version}</version></bundle>
-        <bundle><symbolic-name>org.apache.commons.collections</symbolic-name><version>${commons-collections.version}</version></bundle>
-        <bundle><symbolic-name>org.apache.commons.logging</symbolic-name><version>${commons-logging.version}</version></bundle>
-        <bundle><symbolic-name>org.apache.httpcomponents.httpcore</symbolic-name><version>${httpcomponents.core.version}</version></bundle>
-        <bundle><symbolic-name>org.apache.httpcomponents.httpclient</symbolic-name><version>${httpcomponents.client.version}</version></bundle>
-        <bundle><symbolic-name>com.google.gson</symbolic-name><version>${gson.version}</version></bundle>
-      </bundles>
-    </command>
-  </commands>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://icedtea.classpath.org/thermostat/plugins/v1.0 thermostat-plugin.xsd">
   <extensions>
-   <extension>
+    <extension>
       <name>agent</name>
       <bundles>
-        <bundle><symbolic-name>com.redhat.thermostat.tutorial.kernel.cmdline.storage</symbolic-name><version>${project.version}</version></bundle>
-        <bundle><symbolic-name>com.redhat.thermostat.tutorial.kernel.cmdline.agent</symbolic-name><version>${project.version}</version></bundle>
+        <bundle><symbolic-name>com.redhat.thermostat.tutorial.kernel.cmdline.agent</symbolic-name><version>0.0.4.SNAPSHOT</version></bundle>
       </bundles>
     </extension>
   </extensions>

@@ -36,87 +36,83 @@
 
 package com.redhat.thermostat.tutorial.kernel.cmdline.storage.internal;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.ReferenceCardinality;
+import org.apache.felix.scr.annotations.Service;
+
 import com.redhat.thermostat.common.utils.LoggingUtils;
-import com.redhat.thermostat.storage.core.Cursor;
-import com.redhat.thermostat.storage.core.DescriptorParsingException;
 import com.redhat.thermostat.storage.core.HostRef;
 import com.redhat.thermostat.storage.core.Key;
 import com.redhat.thermostat.storage.core.PreparedStatement;
-import com.redhat.thermostat.storage.core.StatementDescriptor;
-import com.redhat.thermostat.storage.core.StatementExecutionException;
 import com.redhat.thermostat.storage.core.Storage;
 import com.redhat.thermostat.storage.core.WriterID;
+import com.redhat.thermostat.storage.dao.AbstractDao;
+import com.redhat.thermostat.storage.dao.AbstractDaoQuery;
+import com.redhat.thermostat.storage.dao.AbstractDaoStatement;
 import com.redhat.thermostat.tutorial.kernel.cmdline.storage.KernelCmdLine;
 import com.redhat.thermostat.tutorial.kernel.cmdline.storage.KernelCmdLineDAO;
 
-public class KernelCmdLineDAOImpl implements KernelCmdLineDAO {
+@Component(immediate = true)
+@Service(value = KernelCmdLineDAO.class)
+public class KernelCmdLineDAOImpl extends AbstractDao implements KernelCmdLineDAO {
 	
-	private static final Logger logger = LoggingUtils.getLogger(KernelCmdLineDAOImpl.class);
-
-	private static final String REPLACE_DESCRIPTOR = "REPLACE " + kernelCmdLineCategory.getName() +
+	static final String REPLACE_DESCRIPTOR = "REPLACE " + kernelCmdLineCategory.getName() +
 			                                                  " SET '" + Key.AGENT_ID.getName() + "' = ?s , " +
 			                                                       "'" + CMD_LINE_KEY.getName() + "' = ?s , " +
 			                                                       "'" + Key.TIMESTAMP.getName() + "' = ?l " +
 			                                                       "WHERE '" + Key.AGENT_ID.getName() + "' = ?s";
-	private static final String QUERY_DESCRIPTOR = "QUERY " + kernelCmdLineCategory.getName() + " WHERE " +
+	static final String QUERY_DESCRIPTOR = "QUERY " + kernelCmdLineCategory.getName() + " WHERE " +
 			                                                       "'" + Key.AGENT_ID.getName() + "' = ?s";
+	@Reference
+	private Storage storage;
+	@Reference
+	private WriterID writerId;
 	
-	private final Storage storage;
-	private final WriterID writerId;
-	
-    KernelCmdLineDAOImpl(Storage storage, WriterID writerId) {
-    	this.storage = storage;
-    	this.writerId = writerId;
+	public KernelCmdLineDAOImpl() {
+		// Constructor for DS
+	}
+    
+    @Activate
+    private void activate() {
         storage.registerCategory(kernelCmdLineCategory);
     }
     
 	@Override
-    public void putCmdLine(String cmdLine) {
-		try {
-			StatementDescriptor<KernelCmdLine> stmtDesc = new StatementDescriptor<>(kernelCmdLineCategory, REPLACE_DESCRIPTOR);
-			PreparedStatement<KernelCmdLine> replace = storage.prepareStatement(stmtDesc);
-			replace.setString(0, writerId.getWriterID());
-			replace.setString(1, cmdLine);
-			replace.setLong(2, System.currentTimeMillis());
-			replace.setString(3, writerId.getWriterID());
-			replace.execute();
-		} catch (DescriptorParsingException e) {
-            // should not happen, but if it *does* happen, at least log it
-            logger.log(Level.SEVERE, "Preparing '" + REPLACE_DESCRIPTOR + "' failed!", e);
-        } catch (StatementExecutionException e) {
-            // should not happen, but if it *does* happen, at least log it
-            logger.log(Level.SEVERE, "Executing '" + REPLACE_DESCRIPTOR + "' failed!", e);
-        }
+    public void putCmdLine(final String cmdLine) {
+		executeStatement(new AbstractDaoStatement<KernelCmdLine>(storage, kernelCmdLineCategory, REPLACE_DESCRIPTOR) {
+
+            @Override
+            public PreparedStatement<KernelCmdLine> customize(PreparedStatement<KernelCmdLine> preparedStatement) {
+                preparedStatement.setString(0, writerId.getWriterID());
+                preparedStatement.setString(1, cmdLine);
+                preparedStatement.setLong(2, System.currentTimeMillis());
+                preparedStatement.setString(3, writerId.getWriterID());
+                return preparedStatement;
+            }
+        });
 	}
     
 	@Override
-    public String getCmdLine(HostRef ref) {
-		Cursor<KernelCmdLine> cursor = null;
-		try {
-			StatementDescriptor<KernelCmdLine> stmtDesc = new StatementDescriptor<>(kernelCmdLineCategory, QUERY_DESCRIPTOR);
-			PreparedStatement<KernelCmdLine> query = storage.prepareStatement(stmtDesc);
-			query.setString(0, ref.getAgentId());
-			cursor = query.executeQuery();
-		} catch (DescriptorParsingException e) {
-            // should not happen, but if it *does* happen, at least log it
-            logger.log(Level.SEVERE, "Preparing '" + QUERY_DESCRIPTOR + "' failed!", e);
-        } catch (StatementExecutionException e) {
-            // should not happen, but if it *does* happen, at least log it
-            logger.log(Level.SEVERE, "Executing '" + QUERY_DESCRIPTOR + "' failed!", e);
-        }
-		if (cursor == null) {
-			return null;
-		}
-        if (cursor.hasNext()) {
-        	KernelCmdLine pojo = cursor.next();
-            return pojo.getCmdLine();
-        } else {
-            return null;
-        }
+    public String getCmdLine(final HostRef ref) {
+		KernelCmdLine cmdLine = executeQuery(new AbstractDaoQuery<KernelCmdLine>(storage, kernelCmdLineCategory, QUERY_DESCRIPTOR) {
+
+			@Override
+			public PreparedStatement<KernelCmdLine> customize(PreparedStatement<KernelCmdLine> query) {
+				query.setString(0, ref.getAgentId());
+				return query;
+			}
+		}).head();
+		return cmdLine.getCmdLine();
     }
+
+	@Override
+	protected Logger getLogger() {
+		return LoggingUtils.getLogger(KernelCmdLineDAOImpl.class);
+	}
 
 }
 

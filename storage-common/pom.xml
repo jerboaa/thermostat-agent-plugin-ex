@@ -42,7 +42,7 @@
   <parent>
     <groupId>com.redhat.thermostat.plugins.tutorial.kernel.cmdline</groupId>
     <artifactId>thermostat-kernel-cmdline</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
   </parent>
 
   <artifactId>thermostat-kernel-cmdline-storage-common</artifactId>
@@ -89,6 +89,12 @@
           <groupId>com.redhat.thermostat</groupId>
           <artifactId>thermostat-common-core</artifactId>
       </dependency>
+      
+      <!-- declarative services -->
+      <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.scr.annotations</artifactId>
+      </dependency>
     
       <!-- plugin specific dependencies -->
 
@@ -104,7 +110,6 @@
           <instructions>
             <Bundle-Vendor>Red Hat, Inc.</Bundle-Vendor>
             <Bundle-SymbolicName>com.redhat.thermostat.tutorial.kernel.cmdline.storage</Bundle-SymbolicName>
-            <Bundle-Activator>com.redhat.thermostat.tutorial.kernel.cmdline.storage.internal.Activator</Bundle-Activator>
             <Export-Package>
               com.redhat.thermostat.tutorial.kernel.cmdline.storage
             </Export-Package>
@@ -115,6 +120,18 @@
             <_nouses>true</_nouses>
           </instructions>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-scr-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-scr-scrdescriptor</id>
+            <goals>
+              <goal>scr</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
